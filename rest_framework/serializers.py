@@ -485,7 +485,7 @@ class BaseSerializer(WritableField):
         passed to this method.
         """
         try:
-            return data.get('id', None)
+            return getattr(data, 'id', None)
         except AttributeError:
             return None
 
@@ -518,7 +518,7 @@ class BaseSerializer(WritableField):
                     # individual object is being updated for each item in the
                     # incoming data
                     objects = self.object
-                    identities = [self.get_identity(self.to_native(obj)) for obj in objects]
+                    identities = [self.get_identity(obj) for obj in objects]
                     identity_to_objects = dict(zip(identities, objects))
 
                 if hasattr(data, '__iter__') and not isinstance(data, (dict, six.text_type)):
